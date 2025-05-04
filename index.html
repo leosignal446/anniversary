@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our 5th Anniversary</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Cormorant+Garamond:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(180deg, #1e1e3f 0%, #2a1a5e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Cormorant Garamond', serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .constellation {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: glimmer 3s infinite ease-in-out;
+        }
+
+        @keyframes glimmer {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Parisienne', cursive;
+            font-size: 5rem;
+            color: #f0e4d7;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        p {
+            font-size: 1.3rem;
+            line-height: 1.9;
+            color: #e0e0e0;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .letter-box {
+            background: rgba(255, 245, 245, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: max-height 0.7s ease, padding 0.7s ease;
+            max-height: 150px; /* Increased to show more content when closed */
+            overflow: hidden;
+        }
+
+        .letter-box.open {
+            max-height: 1200px; /* Increased to ensure all content is visible when open */
+            padding: 40px;
+        }
+
+        .letter-box h2 {
+            font-family: 'Parisienne',
+
+ cursive;
+            color: #ff6b6b;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .letter-box p {
+            color: #333;
+            font-size: 1.2rem;
+            line-height: 2;
+            text-align: left;
+            font-style: italic;
+        }
+
+        .letter-toggle {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            transition: transform 0.5s;
+        }
+
+        .letter-box.open .letter-toggle {
+            transform: rotate(180deg);
+        }
+
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .reason-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .reason-card h3 {
+            font-family: 'Parisienne', cursive;
+            font-size: 2rem;
+            color: #f0e4d7;
+            margin-bottom: 10px;
+        }
+
+        .reason-card p {
+            font-size: 1rem;
+            color: #d0d0d0;
+        }
+
+        .heart-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 60px;
+            color: #ff6b6b;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            animation: glowHeart 3s infinite ease-in-out;
+            text-shadow: 0 0 20px #ff6b6b;
+        }
+
+        .heart-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .heart-icon.clicked {
+            animation: sendHeart 1.5s forwards;
+        }
+
+        @keyframes glowHeart {
+            0%, 100% { text-shadow: 0 0 20px #ff6b6b; }
+            50% { text-shadow: 0 0 40px #ff6b6b; }
+        }
+
+        @keyframes sendHeart {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(calc(-50vw + 30px), calc(-50vh + 30px)); opacity: 0; }
+        }
+
+        .heart-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 245, 245, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            color: #ff6b6b;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .floating-hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff6b6b;
+            animation: floatUp 6s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            p {
+                font-size: 1.1rem;
+            }
+
+            .letter-box {
+                padding: 20px;
+            }
+
+            .heart-icon {
+                font-size: 40px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="background" id="background"></div>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    <div class="heart-icon" id="heartIcon"><i class="fas fa-heart"></i></div>
+    <div class="heart-message" id="heartMessage">
+        A heart for you, my love ❤️
+    </div>
+    <div class="container">
+        <h1>Five Years Together</h1>
+        <p>Even far apart, our hearts are close.<br>Five years of loving you so much.</p>
+        <p>Every message you send makes my day brighter.<br>Your words feel like a warm hug across the miles.</p>
+        <p>I think of you every day, and it makes me smile.<br>Our chats are my favorite part of life.</p>
+        <p>Though we've never met, I feel so close to you.<br>Your love is like a light in my heart.</p>
+        <div class="letter-box" id="letterBox">
+            <h2>My Sweet Love</h2>
+            <div class="letter-toggle"><i class="fas fa-chevron-down"></i></div>
+            <div class="letter-content">
+                <p>My dear,</p>
+                <p>Five years ago, we started talking, and my world got so much better. Even though we haven't met, I feel you with me every single day.</p>
+                <p><i class="fas fa-heart"></i> Your words make me smile so big.</p>
+                <p><i class="fas fa-heart"></i> Your dreams make me excited for the future.</p>
+                <p><i class="fas fa-heart"></i> Your strong love makes me feel brave.</p>
+                <p><i class="fas fa-heart"></i> Your kind heart makes me so happy.</p>
+                <p>Our favorite times:</p>
+                <p>- The first message that started everything.</p>
+                <p>- Late-night talks that felt too short.</p>
+                <p>- Planning the day we'll finally meet.</p>
+                <p>- Sharing funny stories that made us laugh.</p>
+                <p>- Dreaming about our future together.</p>
+                <p>For our sixth year, I promise:</p>
+                <p>To love you more every day.<br>
+                To make you smile with every message.<br>
+                To wait for the moment we hug.<br>
+                To keep you in my heart always.<br>
+                To dream of you every night.</p>
+                <p>You are my everything, my joy, my love.</p>
+                <p style="text-align: right; margin-top: 20px;">
+                    Always yours,<br>
+                    <span style="font-family: 'Parisienne', cursive; font-size: 1.5rem; color: #ff6b6b;">Your Name</span>
+                </p>
+            </div>
+        </div>
+        <div class="reasons-grid">
+            <div class="reason-card">
+                <h3>1</h3>
+                <p>Your words make me happy</p>
+            </div>
+            <div class="reason-card">
+                <h3>2</h3>
+                <p>Your love feels so close</p>
+            </div>
+            <div class="reason-card">
+                <h3>3</h3>
+                <p>Your dreams light my way</p>
+            </div>
+            <div class="reason-card">
+                <h3>4</h3>
+                <p>Your heart is my home</p>
+            </div>
+            <div class="reason-card">
+                <h3>5</h3>
+                <p>Your love makes me whole</p>
+            </div>
+        </div>
+        <p>I can't wait for the day we meet and hold hands.<br>Until then, you're my sunshine every day.</p>
+        <p>Your love makes the distance feel small.<br>I'm so grateful for you, today and always.</p>
+    </div>
+    <script>
+        // Create constellation background
+        const background = document.getElementById('background');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.classList.add('constellation');
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 3}s`;
+            background.appendChild(star);
+        }
+
+        // Create floating hearts
+        const floatingHearts = document.getElementById('floatingHearts');
+        for (let i = 0; i < 20; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤';
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.animationDelay = `${Math.random() * 5}s`;
+            heart.style.animationDuration = `${Math.random() * 4 + 4}s`;
+            floatingHearts.appendChild(heart);
+        }
+
+        // Heart icon interaction
+        const heartIcon = document.getElementById('heartIcon');
+        const heartMessage = document.getElementById('heartMessage');
+        heartIcon.addEventListener('click', () => {
+            heartIcon.classList.add('clicked');
+            heartMessage.style.opacity = '1';
+            setTimeout(() => {
+                heartMessage.style.opacity = '0';
+                setTimeout(() => {
+                    heartIcon.classList.remove('clicked');
+                    heartIcon.style.opacity = '1';
+                    heartIcon.style.transform = '';
+                }, 500);
+            }, 2000);
+        });
+
+        // Letter toggle
+        const letterBox = document.getElementById('letterBox');
+        letterBox.addEventListener('click', (e) => {
+            if (e.target.closest('.letter-content')) return;
+            letterBox.classList.toggle('open');
+        });
+
+        // Initial fade-in
+        window.addEventListener('load', () => {
+            const container = document.querySelector('.container');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(50px)';
+            setTimeout(() => {
+                container.style.transition = 'all 1s ease';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
